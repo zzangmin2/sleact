@@ -1,20 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { Form, Label, Input, LinkContainer, Button, Header, Error } from '@pages/SignUp/styles';
+import axios from "axios";
+import useInput from "@hooks/useinput";
 
 const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
+  const [email, onChangeEmail, setEmail] = useInput('');
+  const [nickname, onChangeNickname, setNickname] = useInput('');
+  const [password, ,setPassword] = useInput('');
+  const [passwordCheck, ,setPasswordCheck] = useInput('');
   const [missmatchError, setMissmatchError] = useState(false);
-
-  const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
-
-  const onChangeNickname = useCallback((e) => {
-    setNickname(e.target.value);
-  }, []);
 
   const onChangePassword = useCallback(
     (e) => {
@@ -35,7 +29,7 @@ const SignUp = () => {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(email, nickname, password, passwordCheck);
+      //console.log(email, nickname, password, passwordCheck);
       if (!missmatchError) {
         console.log('서버로 회원가입하기');
       }
