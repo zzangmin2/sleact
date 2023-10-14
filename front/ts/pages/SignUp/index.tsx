@@ -1,7 +1,8 @@
 import React, {useState, useCallback, Suspense} from 'react';
 import { Success, Form, Label, Input, LinkContainer, Button, Header, Error } from '@pages/SignUp/styles';
 import axios from "axios";
-import useInput from "@hooks/useinput";
+import useInput from "@hooks/useInput";
+import {Link} from "react-router-dom";
 
 const SignUp = () => {
   const [email, onChangeEmail, setEmail] = useInput('');
@@ -93,7 +94,7 @@ const SignUp = () => {
         </Label>
         <Button type="submit">회원가입</Button>
       </Form>
-      <LinkContainer>이미 회원이신가요?&nbsp;</LinkContainer>
+      <Link to="/login">이미 회원이신가요?&nbsp;</Link>
     </div>
   );
 };
