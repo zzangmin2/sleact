@@ -2,13 +2,14 @@ import useInput from '@hooks/useInput';
 import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from '@pages/SignUp/styles';
 //import fetcher from '@utils/fetcher';
 import axios from 'axios';
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-//import useSWR from 'swr';
+import useSWR  from "swr";
+import fetcher from "@utils/fetcher";
+
 
 const LogIn = () => {
-    //const { data, error, revalidate, mutate } = useSWR('/api/users', fetcher);
-
+    const {data,error,mutate} = useSWR('http://localhost:3095/api/users',fetcher,);
     const [logInError, setLogInError] = useState(false);
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
@@ -18,14 +19,14 @@ const LogIn = () => {
             setLogInError(false);
             axios
                 .post(
-                    '/api/users/login',
+                    'http://localhost:3095/api/users/login',
                     { email, password },
                     {
                         withCredentials: true,
                     },
                 )
-                .then((response) => {
-
+                .then((res) => {
+                    mutate(res.data,true);
                 })
                 .catch((error) => {
                     setLogInError(error.response?.status === 401);
@@ -34,19 +35,28 @@ const LogIn = () => {
         [email, password],
     );
 
-    // if (data === undefined) {
-    //     return <div>로딩중...</div>;
-    // }
-    //
-    // if (data) {
-    //     return <Redirect to="/workspace/sleact/channel/일반" />;
-    // }
+    if (data === undefined) {
+        return <div>로딩중...</div>;
+    }
 
-    // console.log(error, userData);
-    // if (!error && userData) {
-    //   console.log('로그인됨', userData);
-    //   return <Redirect to="/workspace/sleact/channel/일반" />;
-    // }
+    // 데이터를 입력하고 다른 페이지로 이동하기 위해 로딩할 때
+    if(data === undefined){
+        return <div>로딩중 ...</div>
+    }
+
+    // 데이터가 있는 경우 channel로 이동
+    if (data) {
+        return <Redirect to="/workspace/sleact/channel" />;
+    }
+
+    /*
+    console.log(error, userData);
+    if (!error && userData) {
+      console.log('로그인됨', userData);
+      return <Redirect to="/workspace/sleact/channel/일반" />;
+    }
+
+     */
 
     return (
         <div id="container">
@@ -71,8 +81,7 @@ const LogIn = () => {
                 아직 회원이 아니신가요?&nbsp;
                 <Link to="/signup">회원가입 하러가기</Link>
             </LinkContainer>
-        </div>
-    );
+        </div>);
 };
 
 export default LogIn;
