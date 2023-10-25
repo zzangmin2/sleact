@@ -4,7 +4,7 @@ import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } fro
 import axios from 'axios';
 import React, {useCallback, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import useSWR  from "swr";
+import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 
 
@@ -26,7 +26,7 @@ const LogIn = () => {
                     },
                 )
                 .then((res) => {
-                    mutate(res.data,true);
+                    mutate(res.data,true); //Optimistic UI(true) <-> Pessimistic UI
                 })
                 .catch((error) => {
                     setLogInError(error.response?.status === 401);
@@ -35,10 +35,6 @@ const LogIn = () => {
         [email, password],
     );
 
-    if (data === undefined) {
-        return <div>로딩중...</div>;
-    }
-
     // 데이터를 입력하고 다른 페이지로 이동하기 위해 로딩할 때
     if(data === undefined){
         return <div>로딩중 ...</div>
@@ -46,7 +42,7 @@ const LogIn = () => {
 
     // 데이터가 있는 경우 channel로 이동
     if (data) {
-        return <Redirect to="/workspace/sleact/channel" />;
+        return <Redirect to="/workspace/channel" />;
     }
 
     /*
