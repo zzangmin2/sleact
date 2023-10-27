@@ -1,6 +1,6 @@
 import React from "react";
 import {Container} from "@pages/Channel/styles";
-import {Header} from "@pages/SignUp/styles";
+import {Header} from "@pages/Channel/styles";
 
 const Channel = () => {
     return (
