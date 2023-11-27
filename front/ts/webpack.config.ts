@@ -1,7 +1,7 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import webpack, { Configuration as WebpackConfiguration } from "webpack";
-import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import webpack, { Configuration as WebpackConfiguration } from 'webpack';
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
@@ -48,11 +48,11 @@ const config: Configuration = {
           ],
           env: {
             development: {
-              plugins: [['@emotion',{ sourceMap: true }], require.resolve('react-refresh/babel')],
+              plugins: [['@emotion', { sourceMap: true }], require.resolve('react-refresh/babel')],
             },
             production: {
               plugins: ['@emotion'],
-            }
+            },
           },
         },
         exclude: path.join(__dirname, 'node_modules'),
@@ -81,13 +81,14 @@ const config: Configuration = {
     historyApiFallback: true, // react router
     port: 3090,
     devMiddleware: { publicPath: '/dist/' },
+    static: { directory: path.resolve(__dirname) },
+
     proxy: {
-      '/api/':{
-        target:'http://localhost:3095',
+      '/api/': {
+        target: 'http://localhost:3095',
         changeOrigin: true,
       },
     },
-    static: { directory: path.resolve(__dirname) },
   },
 };
 

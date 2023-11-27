@@ -10,7 +10,7 @@ const objectA = {
             // this: global
             console.log(`>> name1:${name1}, name2:${name2}, this.name1:${this.name1}, this.name2:${this.name2}, this`, this);
             return `>>>> objectA.name1 + name2: ${objectA.name1} ${name2}`;
-        };
+        }
         return fullname();
     },
 }

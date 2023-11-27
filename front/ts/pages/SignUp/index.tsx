@@ -1,17 +1,17 @@
-import React, {useState, useCallback, Suspense} from 'react';
+import React, { useState, useCallback, Suspense } from 'react';
 import { Success, Form, Label, Input, LinkContainer, Button, Header, Error } from '@pages/SignUp/styles';
-import axios from "axios";
-import useInput from "@hooks/useInput";
-import {Link, Redirect} from "react-router-dom";
-import useSWR from "swr";
-import fetcher from "@utils/fetcher";
+import axios from 'axios';
+import useInput from '@hooks/useInput';
+import { Link, Redirect } from 'react-router-dom';
+import useSWR from 'swr';
+import fetcher from '@utils/fetcher';
 
 const SignUp = () => {
-    const {data,error,mutate} = useSWR('http://localhost:3095/api/users',fetcher);
-    const [email, onChangeEmail, setEmail] = useInput('');
+  const { data, error, mutate } = useSWR('/api/users', fetcher);
+  const [email, onChangeEmail, setEmail] = useInput('');
   const [nickname, onChangeNickname, setNickname] = useInput('');
-  const [password, ,setPassword] = useInput('');
-  const [passwordCheck, ,setPasswordCheck] = useInput('');
+  const [password, , setPassword] = useInput('');
+  const [passwordCheck, , setPasswordCheck] = useInput('');
   const [missmatchError, setMissmatchError] = useState(false);
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
@@ -42,27 +42,34 @@ const SignUp = () => {
         // 로딩
         setSignUpError('');
         setSignUpSuccess(false);
-        axios.post('/api/users ',{
+        axios
+          .post('/api/users ', {
             email,
             nickname,
             password,
-        })
-            //성공
-            .then((response)=>{console.log(response); setSignUpSuccess(true)})
-            //실패
-            .catch((error)=>{console.log(error.response); setSignUpError(error.response.data);})
-            .finally(()=>{});
+          })
+          //성공
+          .then((response) => {
+            console.log(response);
+            setSignUpSuccess(true);
+          })
+          //실패
+          .catch((error) => {
+            console.log(error.response);
+            setSignUpError(error.response.data);
+          })
+          .finally(() => {});
       }
     },
     [email, nickname, password, passwordCheck, missmatchError],
   );
 
-    if(data === undefined){
-        return <div>로딩중 ...</div>
-    }
+  if (data === undefined) {
+    return <div>로딩중 ...</div>;
+  }
 
-  if(data){
-      return <Redirect to="/workspace/channel"/>
+  if (data) {
+    return <Redirect to="/workspace/sleact/channel/일반" />;
   }
 
   return (
@@ -100,8 +107,8 @@ const SignUp = () => {
           </div>
           {missmatchError && <Error>비밀번호가 일치하지 않습니다.</Error>}
           {!nickname && <Error>닉네임을 입력해 주세요</Error>}
-            {signUpError && <Error>{signUpError}</Error>}
-            {signUpSuccess && <Success>회원가입되었습니다! 로그인해주세요!</Success>}
+          {signUpError && <Error>{signUpError}</Error>}
+          {signUpSuccess && <Success>회원가입되었습니다! 로그인해주세요!</Success>}
         </Label>
         <Button type="submit">회원가입</Button>
       </Form>
