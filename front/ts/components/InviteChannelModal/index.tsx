@@ -19,7 +19,7 @@ const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   const { data: userData } = useSWR<IUser>(`/api/users`, fetcher);
   const { mutate: mutateMembers } = useSWR<IUser[]>(
-    userData ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
+    userData && channel ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
     fetcher,
   );
   const onInviteMember = useCallback(
@@ -30,7 +30,7 @@ const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
       }
       axios
         .post(
-          `/api/workspaces/${workspace}/channels/${channel}/members`,
+          `/api/workspace/${workspace}/channels/${channel}/members`,
           { email: newMember },
           { withCredentials: true },
         )

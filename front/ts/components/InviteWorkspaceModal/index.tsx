@@ -30,7 +30,7 @@ const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteWorks
         return;
       }
       axios
-        .post(`/api/workspaces/${workspace}/members`, { email: newMember }, { withCredentials: true })
+        .post(`/api/workspace/${workspace}/members`, { email: newMember }, { withCredentials: true })
         .then((res) => {
           setShowInviteWorkspaceModal(false);
           mutateMember();
